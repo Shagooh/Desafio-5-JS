@@ -6,21 +6,25 @@ const borrarTarea = document.querySelector('#borrar')
 const verTotal = document.querySelector('#mostrarTotal')
 const verRealizadas = document.querySelector('#mostrarRealizados')
 const tareas = [
-    { id: 1, descripcion: "Lavar", realizada: false },
-    { id: 2, descripcion: "Secar", realizada: false },
-    { id: 3, descripcion: "Tender", realizada: false },
-    { id: 4, descripcion: "Limpiar", realizada: false }
+    { id: 1, descripcion: "Lavar", estado: false },
+    { id: 2, descripcion: "Secar", estado: false },
+    { id: 3, descripcion: "Tender", estado: false },
+    { id: 4, descripcion: "Limpiar", estado: false }
 ]
-
-
 
 btnTarea.addEventListener("click", () => {
 
     const nuevaTarea = tareaInput.value
-    tareas.push({ id: tareas.length+1, descripcion: nuevaTarea })
+    tareas.push({ id: tareas.length + 1, descripcion: nuevaTarea, estado: false })
     tareaInput.value = ''
     renderizar(tareas)
 })
+
+function borrar(id) {
+    const index = tareas.findIndex((ele) => ele.id == id)
+    tareas.splice(index, 1)
+    renderizar(tareas);
+}
 
 function renderizar(tareas) {
 
@@ -35,14 +39,18 @@ function renderizar(tareas) {
             </td>
             </tr>`
     })
-    verRealizadas.textContent = `${tareas.length}`
     verTotal.textContent = `${tareas.length}`
-        ;
-}
+
+    // const tareaRealizada = tareas.find(tarea => tarea.estado == false)
+    // if (tareaRealizada) {
+
+};
 renderizar(tareas);
 
-function borrar(id) {
-    const index = tareas.findIndex((ele) => ele.id == id)
-    tareas.splice(index, 1)
-    renderizar(tareas);
+let contador = 0;
+for (const obj of tareas) {
+    if (obj.estado === true) contador++;
 }
+
+verRealizadas.textContent = `${contador}`
+console.log(contador)
